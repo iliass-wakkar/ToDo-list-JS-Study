@@ -28,8 +28,13 @@
                 <ul class="flex flex-wrap -mb-px">
                     <li class="me-2 w-1/5">
                         <a href="#"
-                            class=" inline-block p-4 border-b-2 border-transparent hover:text-blue-600 border-b-2 hover:border-blue-600 rounded-t-lg hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300">
+                            class=" inline-block p-4 border-b-2 border-transparent hover:text-gray-600 border-b-2 hover:border-gray-600 rounded-t-lg hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300">
                             All</a>
+                    </li>
+                    <li class="me-2">
+                        <a href="#"
+                            class="inline-block p-4 hover:text-blue-600 border-b-2 hover:border-blue-600 rounded-t-lg active dark:text-blue-500 dark:border-blue-500"
+                            aria-current="page">In progress</a>
                     </li>
                     <li class="me-2">
                         <a href="#"
@@ -41,7 +46,6 @@
             </div>
 
 
-            <hr class="my-2 border-t-2 border-gray-300">
             <div class="pl-4 pr-3 pb-3 grid-cols-4 flex justify-left items-center rounded-lg">
                 <div class="w-4/5 cursor-pointer hover:text-blue-500">
                     <p class="" >first task</p>
@@ -190,6 +194,13 @@
                 document.getElementById("ExitForm").classList.add("hidden");
 
             });
+            var Tasks=[
+                {
+                    "title": "Task 1",
+                    "description": "This is a sample task",
+                    "status": "in progress",
+                }
+            ]
     </script>
     <!-- Flowbite JS -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.4.0/flowbite.min.js"></script>
