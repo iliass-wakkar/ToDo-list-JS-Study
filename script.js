@@ -1,23 +1,31 @@
 
         
             let deletedtitle="";
-            var Tasks = [
-                {
-                    "title": "Task 1",
-                    "description": "This is a sample task",
-                    "status": "In progress",
-                },
-                {
-                    "title": "Task 2",
-                    "description": "This is another sample task",
-                    "status": "Completed",
-                },
-                {
-                    "title": "Task 3",
-                    "description": "This is a third sample task",
-                    "status": "In progress",
-                }
-            ]
+            var completed = document.getElementById("completed");
+            var Tasks =  JSON.parse(localStorage.getItem("Tasks")) || [] ;
+            
+            console.log("Tasks: " + Tasks);
+            saveTasksToStorage();
+            function saveTasksToStorage(){
+                localStorage.setItem("Tasks", JSON.stringify(Tasks));
+            }
+            // var Tasks = [
+            //     {
+            //         "title": "Task 1",
+            //         "description": "This is a sample task",
+            //         "status": "In progress",
+            //     },
+            //     {
+            //         "title": "Task 2",
+            //         "description": "This is another sample task",
+            //         "status": "Completed",
+            //     },
+            //     {
+            //         "title": "Task 3",
+            //         "description": "This is a third sample task",
+            //         "status": "In progress",
+            //     }
+            // ]
             var stat = "all";
             function createElement(task) {
                 var divContainer = document.createElement("div");
@@ -41,12 +49,14 @@
 
                 var checkDiv = document.createElement("div");
                 checkDiv.setAttribute("onclick", "checkStatus(this)");
-                checkDiv.classList.add( "Check", "cursor-pointer", "mh-3", "hover:bg-gray-300", "w-8", "h-8", "rounded-full", "flex", "justify-center", "items-center")
-                var checkIcon = document.createElement("i");
                 if(task.status === "Completed")
-                checkIcon.classList.add("text-green-500" , "fa-solid", "fa-check");
+                checkDiv.classList.add( "Check", "cursor-pointer", "mh-3", "bg-green-400", "w-8", "h-8", "rounded-full", "flex", "justify-center", "items-center");
                 else
-                checkIcon.classList.add("hover:text-green-600", "fa-solid", "fa-check");
+                checkDiv.classList.add( "Check", "cursor-pointer", "mh-3", "hover:bg-gray-300", "w-8", "h-8", "rounded-full", "flex", "justify-center", "items-center");                var checkIcon = document.createElement("i");
+                if(task.status === "Completed")
+                checkIcon.classList.add("text-white" , "fa-solid", "fa-check");
+                else
+                checkIcon.classList.add( "fa-solid", "fa-check");
                 checkDiv.appendChild(checkIcon);
 
                 var DeleteDiv = document.createElement("div");
@@ -71,7 +81,7 @@
                 document.getElementById("TasksSpace").appendChild(divContainer);
             }
 
-            function sort(stat) {
+            function filterTask(stat) {
                 document.getElementById("TasksSpace").innerHTML = ""
                 if (stat == "all")
                     Tasks.filter(task => task.status != stat).map((task) => {
@@ -81,28 +91,27 @@
                     createElement(task);
                 });
             }
-            sort(stat);
+            filterTask(stat);
             function inProgress() {
                 document.getElementById("inProgress").classList.add(`text-blue-600`, `border-blue-600`);
                 document.getElementById("all").classList.remove(`text-gray-600`, `border-gray-600`);
                 document.getElementById("completed").classList.remove(`text-green-600`, `border-green-600`);
                 stat = "In progress";
-                sort(stat);
-                stpidJS();
+                filterTask(stat);
             }
             function Completed() {
                 document.getElementById("completed").classList.add(`text-green-600`, `border-green-600`);
                 document.getElementById("all").classList.remove(`text-gray-600`, `border-gray-600`);
                 document.getElementById("inProgress").classList.remove(`text-blue-600`, `border-blue-600`);
                 stat = "Completed";
-                sort(stat);
+                filterTask(stat);
             }
             function allstat() {
                 document.getElementById("all").classList.add(`text-gray-600`, `border-gray-600`);
                 document.getElementById("completed").classList.remove(`text-green-600`, `border-green-600`);
                 document.getElementById("inProgress").classList.remove(`text-blue-600`, `border-blue-600`);
                 stat = "all"
-                sort(stat);
+                filterTask(stat);
             }
             function showForm() {
                 document.getElementById("Title").value = "";
@@ -125,9 +134,10 @@
                 };
             function deleteTask()  {
                 Tasks = Tasks.filter(task => task.title != deletedtitle); 
-                sort(stat);
+                filterTask(stat);
                 document.getElementById("ConfDelete").classList.add("hidden");
                 document.getElementById("ExitForm").classList.add("hidden");
+                saveTasksToStorage();
             }
             function showEditForm(task)  {
                     var parent = task.parentNode;
@@ -147,9 +157,10 @@
                         if (task.title === title) {
                             task.status = (task.status === "In progress") ? "Completed" : "In progress";
 
-                            sort(stat);
+                            filterTask(stat);
                         }
                     });
+                    saveTasksToStorage();
                 }
                 function saveTask() {
                 var title = document.getElementById("Title").value;
@@ -165,7 +176,7 @@
                 Tasks.map((task) => {
                     if (task.title === title) {
                         task.description = description;
-                        sort(stat);
+                        filterTask(stat);
                         console.log("1df");
                     } 
                 });}
@@ -176,8 +187,9 @@
                             "status": "In progress",
                         });
                         console.log("1");
-                        sort(stat);
+                        filterTask(stat);
                 }
+                saveTasksToStorage();
             }
             
             
